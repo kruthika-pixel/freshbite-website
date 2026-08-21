@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details - Foodie</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">Foodie</div>
+            <a href="menu.html" class="cart-button">Back to Menu</a>
+            <a href="login.html" class="cart-button">Login</a>
+            <a href="account.html" class="cart-button">My Account</a>
+        </nav>
+    </header>
+
+    <main id="productDetails"></main>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        const productId =
+            Number(new URLSearchParams(location.search).get("id"));
+
+        const food =
+            foodItems.find(item => item.id === productId);
+
+        const container =
+            document.getElementById("productDetails");
+
+        if (!food) {
+            container.innerHTML = "<p>Food item not found.</p>";
+        } else {
+            container.innerHTML = `
+                <img src="${food.image}" alt="${food.name}">
+
+                <h1>${food.name}</h1>
+
+                <p>${food.description}</p>
+
+                <div class="dietary-tags">
+                    ${food.dietaryTags
+                        .map(tag => `<span>${tag}</span>`)
+                        .join("")}
+                </div>
+
+                <p>
+                    <strong>Ingredients:</strong>
+                    ${food.ingredients.join(", ")}
+                </p>
+
+                <p>
+                    <strong>Nutrition:</strong>
+                    ${food.nutrition}
+                </p>
+
+                <h2>₹${food.price}</h2>
+
+                <button
+                    class="add-button"
+                    onclick="addToCart(${food.id})"
+                >
+                    Add to Cart
+                </button>
+            `;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Foodie - Online Food Ordering</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+     <header>
+        <nav class="navbar">
+            <div class="logo">🍴 Foodie</div>
+
+           
+            <ul class="nav-links">
+    <li><a href="index.html#home">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+        <li>
+        <a href="restaurants.html">Restaurants</a>
+    </li>
+        <li>
+        <a href="login.html">Login</a>
+    </li>
+    
+    <li>
+        <a href="account.html">My Account</a>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+</ul>
+
+
+               <button class="cart-button" onclick="openCart()">
+                🛒 Cart <span id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Delicious Food,<br>Delivered Fast 🍕</h1>
+            <p>Order your favorite food from Foodie and enjoy it at home.</p>
+            <a href="#menu" class="hero-button">Order Now</a>
+        </div>
+    </section>
+    
+    <!-- Special Offers -->
+    
+    <section class="offers-section">
+    
+        <h2>Special Offers</h2>
+    
+        <div class="offers-container">
+    
+            <article class="offer-card">
+                <h3>20% Off First Order</h3>
+                <p>Use code: FOODIE20</p>
+            </article>
+    
+            <article class="offer-card">
+                <h3>Free Delivery</h3>
+                <p>On orders above ₹499</p>
+            </article>
+    
+            <article class="offer-card">
+                <h3>Healthy Choice</h3>
+                <p>Fresh salad at only ₹130</p>
+            </article>
+    
+        </div>
+    
+    </section>
+
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <h2>Our Menu</h2>
+        <p class="section-subtitle">Choose your favorite food</p>
+
+        <!-- Search -->
+        <div class="search-container">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search food..."
+                onkeyup="searchFood()"
+            >
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button onclick="filterFood('All')">All</button>
+            <button onclick="filterFood('Burger')">🍔 Burgers</button>
+            <button onclick="filterFood('Pizza')">🍕 Pizza</button>
+            <button onclick="filterFood('Biryani')">🍛 Biryani</button>
+            <button onclick="filterFood('Drinks')">🥤 Drinks</button>
+            <button onclick="filterFood('Dessert')">🍰 Dessert</button>
+            <button onclick="filterFood('Healthy')"> 🥗 Healthy</button>
+        </div>
+
+        <!-- Food Items -->
+        <div id="foodContainer" class="food-container"></div>
+    </section>
+
+
+
+    <!-- About -->
+
+    <section
+        id="about"
+        class="about-section">
+
+        <h2>
+            About Foodie
+        </h2>
+
+        <p>
+            Foodie is a simple online food ordering
+            You can browse food items,
+            add them to your cart and place an order
+            without requiring a database.
+        </p>
+
+    </section>
+
+
+
+    <!-- Contact -->
+
+    <section
+        id="contact"
+        class="contact-section">
+
+        <h2>
+            Contact Us
+        </h2>
+
+
+        <form id="contactForm">
+
+            <input
+                type="text"
+                placeholder="Your Name"
+                required
+            >
+
+
+            <input
+                type="email"
+                placeholder="Your Email"
+                required
+            >
+
+
+            <textarea
+                placeholder="Your Message"
+                required>
+            </textarea>
+
+
+            <button type="submit">
+                Send Message
+            </button>
+
+        </form>
+
+    </section>
+<!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="cart-box">
+
+            <button class="close-button" onclick="closeCart()">×</button>
+
+            <h2>🛒 Your Cart</h2>
+
+            <div id="cartItems"></div>
+
+            <div class="cart-total">
+                <strong>Total: ₹<span id="cartTotal">0</span></strong>
+            </div>
+
+            <button class="checkout-button" onclick="openCheckout()">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+
+        <div class="checkout-box">
+
+            <button class="close-button" onclick="closeCheckout()">×</button>
+
+            <h2>Checkout</h2>
+
+            <form id="checkoutForm">
+<select id="deliveryTime" required>
+
+    <option value="">
+        Select delivery time
+    </option>
+
+    <option value="30 minutes">
+        Within 30 minutes
+    </option>
+
+    <option value="1 hour">
+        Within 1 hour
+    </option>
+
+</select>
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Full Name"
+                    required
+                >
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Phone Number"
+                    required
+                >
+
+                <textarea
+                    id="address"
+                    placeholder="Delivery Address"
+                    required
+                ></textarea>
+
+                <select id="payment" onchange="showCardFields()" required>
+    <option value="">Select Payment Method</option>
+    <option value="Cash on Delivery">Cash on Delivery</option>
+    <option value="UPI">UPI</option>
+    <option value="Card">Card</option>
+</select>
+
+<div id="cardFields" style="display: none;">
+
+    <input
+        type="text"
+        id="cardNumber"
+        placeholder="Card Number"
+        maxlength="19"
+    >
+
+    <input
+        type="text"
+        id="expiry"
+        placeholder="Expiry Date (MM/YY)"
+        maxlength="5"
+    >
+
+    <input
+        type="password"
+        id="cvv"
+        placeholder="CVV"
+        maxlength="3"
+    >
+
+</div>
+
+                <button type="submit" class="place-order">
+                    Place Order
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Success -->
+    <div id="successModal" class="modal">
+
+        <div class="success-box">
+
+            <h2>🎉 Order Placed!</h2>
+
+            <p id="orderMessage"></p>
+
+            <button onclick="closeSuccess()">Continue Shopping</button>
+
+        </div>
+
+    </div>    
+   
+    <footer>
+        <p>© 2026 Foodie. Frontend Web Development Project.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>

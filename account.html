@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Foodie</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">Foodie</div>
+        <a href="index.html" class="cart-button">Home</a>
+    </nav>
+</header>
+
+<main class="account-page">
+    <h1>My Account</h1>
+
+    <section class="account-card">
+        <h2>Profile</h2>
+        <p id="profileName">Name: Guest</p>
+        <p id="profileEmail">Email: Not registered</p>
+    </section>
+
+    <section class="account-card">
+        <h2>Order History</h2>
+        <div id="orderHistory"></div>
+    </section>
+
+    <section class="account-card">
+        <h2>Saved Addresses</h2>
+        <p>No saved addresses.</p>
+    </section>
+
+    <section class="account-card">
+        <h2>Wishlist</h2>
+        <p>No wishlist items.</p>
+    </section>
+</main>
+
+<script>
+    const user =
+        JSON.parse(localStorage.getItem("foodieUser")) || null;
+
+    if (user) {
+        document.getElementById("profileName").textContent =
+            `Name: ${user.name}`;
+
+        document.getElementById("profileEmail").textContent =
+            `Email: ${user.email}`;
+    }
+
+    const orders =
+        JSON.parse(localStorage.getItem("foodieOrders")) || [];
+
+    const orderHistory =
+        document.getElementById("orderHistory");
+
+    if (orders.length === 0) {
+        orderHistory.innerHTML = "<p>No orders yet.</p>";
+    } else {
+        orderHistory.innerHTML = orders.map(order => `
+            <article class="order-card">
+                <h3>Order ${order.orderId}</h3>
+                <p>Total: ₹${order.total}</p>
+                <p>Payment: ${order.paymentMethod}</p>
+                <p>Delivery: ${order.deliveryTime || "Not selected"}</p>
+                <p>Date: ${order.date}</p>
+            </article>
+        `).join("");
+    }
+</script>
+
+</body>
+</html>
